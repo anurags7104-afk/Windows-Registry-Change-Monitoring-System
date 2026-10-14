@@ -1,0 +1,30 @@
+{
+  "HKCU": {
+    "Software\\Microsoft\\Windows\\CurrentVersion\\Run": {
+      "OneDrive": "C:\\Users\\User\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe /background"
+    },
+    "Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce": {},
+    "Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+      "Shell": "explorer.exe"
+    }
+  },
+  "HKLM": {
+    "Software\\Microsoft\\Windows\\CurrentVersion\\Run": {
+      "SecurityHealth": "%windir%\\system32\\SecurityHealthSystray.exe"
+    },
+    "Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce": {},
+    "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run": {},
+    "SOFTWARE\\Policies\\Microsoft\\Windows Defender": {
+      "DisableAntiSpyware": 0
+    },
+    "SYSTEM\\CurrentControlSet\\Services\\WinDefend": {
+      "Start": 2
+    },
+    "SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile": {
+      "EnableFirewall": 1
+    },
+    "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+      "EnableLUA": 1
+    }
+  }
+}

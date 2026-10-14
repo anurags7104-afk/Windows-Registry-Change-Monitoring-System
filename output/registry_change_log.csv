@@ -1,0 +1,2 @@
+timestamp,key,value_name,change_type,old_value,new_value,severity,risk_score,flags
+2026-10-14T11:09:51.546601+00:00,HKCU\Software\Microsoft\Windows\CurrentVersion\Run,TestEntry,added,,C:\Users\%USERNAME%\AppData\Local\Temp\svchost32.exe -silent,HIGH,55,NEW_AUTORUN_ENTRY; SUSPICIOUS_PATTERN: matches '\\AppData\\(Local|Roaming)\\Temp\\'

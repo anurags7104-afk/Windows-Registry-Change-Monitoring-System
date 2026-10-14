@@ -1,0 +1,102 @@
+{
+  "captured_at": "2026-10-14T10:58:32.260909+00:00",
+  "mode": "REAL_WINDOWS_REGISTRY",
+  "keys": {
+    "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run": {
+      "OneDrive": "\"C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe\" /background",
+      "LenovoVantageToolbar": "C:\\ProgramData\\Lenovo\\Vantage\\AddinData\\LenovoBatteryGaugeAddin\\x64\\QSHelper.exe",
+      "Medal": "\"C:\\Users\\Anurag singh\\AppData\\Local\\Medal\\update.exe\" --processStart \"Medal.exe\"",
+      "Discord": "\"C:\\Users\\Anurag singh\\AppData\\Local\\Discord\\Update.exe\" --processStart Discord.exe",
+      "RobloxPlayerBeta": "\"C:\\Program Files\\WindowsApps\\ROBLOXCorporation.RobloxGDK_2.727.1199.0_x64__55nm5eh3cm0pr\\RobloxPlayerBeta.exe\" --launch-to-tray",
+      "Microsoft.Lists": "C:\\Program Files\\Microsoft OneDrive\\26.150.0804.0011\\OneDrive.Sync.Service.exe",
+      "Steam": "\"C:\\Program Files (x86)\\Steam\\steam.exe\" -silent",
+      "electron.app.BlueStacks Services": "C:\\Users\\Anurag singh\\AppData\\Local\\Programs\\bluestacks-services\\BlueStacksServices.exe --hidden",
+      "ut": "\"C:\\Users\\Anurag singh\\AppData\\Roaming\\utorrent\\uTorrent.exe\"  /MINIMIZED",
+      "BixBerry": "\"C:\\Users\\Anurag singh\\AppData\\Local\\Programs\\Bixberry\\BixBerry.exe\" -silent",
+      "MicrosoftCopilotAutoLaunch_1852093C99F9C61CC9E099EC31B6B342": "\"C:\\Program Files (x86)\\Microsoft\\Copilot\\Application\\mscopilot.exe\" --no-startup-window --win-session-start",
+      "MicrosoftEdgeAutoLaunch_50A85553BDABAD2C44E8FB7856FA75F3": "\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --no-startup-window --win-session-start"
+    },
+    "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce": {},
+    "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run": {
+      "SecurityHealth": "%windir%\\system32\\SecurityHealthSystray.exe",
+      "RtkAudUService": "\"C:\\WINDOWS\\System32\\DriverStore\\FileRepository\\realtekservice.inf_amd64_26f0df01c9da165d\\RtkAudUService64.exe\" -background",
+      "vmware-tray.exe": "\"C:\\Program Files\\VMware\\VMware Workstation\\vmware-tray.exe\""
+    },
+    "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce": {
+      "msedge_cleanup_{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}": "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\Installer\\setup.exe\" --msedgewebview --delete-old-versions --system-level --verbose-logging --on-logon"
+    },
+    "HKLM\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run": {
+      "SunJavaUpdateSched": "\"C:\\Program Files (x86)\\Common Files\\Java\\Java Update\\jusched.exe\"",
+      "Adobe Creative Cloud": "\"C:\\Program Files\\Adobe\\Adobe Creative Cloud\\ACC\\Creative Cloud.exe\" --showwindow=false --onOSstartup=true",
+      "Intel\u00ae Graphics Software": "\"C:\\Program Files\\Intel\\Intel Graphics Software\\IntelGraphicsSoftware.exe\" -s"
+    },
+    "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender": {},
+    "HKLM\\SYSTEM\\CurrentControlSet\\Services\\WinDefend": {
+      "DependOnService": [
+        "RpcSs"
+      ],
+      "Description": "@C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26080.4-0\\MpAsDesc.dll,-240",
+      "DisplayName": "@C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26080.4-0\\MpAsDesc.dll,-310",
+      "ErrorControl": 1,
+      "FailureActions": "0x805101000000000001000000030000001400000001000000e803000001000000102700000100000060ea0000",
+      "ImagePath": "\"C:\\ProgramData\\Microsoft\\Windows Defender\\Platform\\4.18.26080.4-0\\MsMpEng.exe\"",
+      "LaunchProtected": 3,
+      "ObjectName": "LocalSystem",
+      "RequiredPrivileges": [
+        "SeImpersonatePrivilege",
+        "SeBackupPrivilege",
+        "SeRestorePrivilege",
+        "SeDebugPrivilege",
+        "SeChangeNotifyPrivilege",
+        "SeLoadDriverPrivilege",
+        "SeSecurityPrivilege",
+        "SeShutdownPrivilege",
+        "SeIncreaseQuotaPrivilege",
+        "SeAssignPrimaryTokenPrivilege",
+        "SeTcbPrivilege",
+        "SeIncreaseBasePriorityPrivilege",
+        "SeSystemEnvironmentPrivilege",
+        "SeTakeOwnershipPrivilege"
+      ],
+      "ServiceSidType": 1,
+      "Start": 2,
+      "Type": 16
+    },
+    "HKLM\\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile": {
+      "DisableNotifications": 0,
+      "EnableFirewall": 1
+    },
+    "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+      "ConsentPromptBehaviorAdmin": 5,
+      "ConsentPromptBehaviorEnhancedAdmin": 1,
+      "ConsentPromptBehaviorUser": 3,
+      "DSCAutomationHostEnabled": 2,
+      "EnableCursorSuppression": 1,
+      "EnableFullTrustStartupTasks": 2,
+      "EnableInstallerDetection": 1,
+      "EnableLUA": 1,
+      "EnableSecureUIAPaths": 1,
+      "EnableUIADesktopToggle": 0,
+      "EnableUwpStartupTasks": 2,
+      "EnableVirtualization": 1,
+      "PromptOnSecureDesktop": 1,
+      "SupportFullTrustStartupTasks": 1,
+      "SupportUwpStartupTasks": 1,
+      "TypeOfAdminApprovalMode": 1,
+      "ValidateAdminCodeSignatures": 0,
+      "dontdisplaylastusername": 0,
+      "legalnoticecaption": "",
+      "legalnoticetext": "",
+      "scforceoption": 0,
+      "shutdownwithoutlogon": 1,
+      "undockwithoutlogon": 1,
+      "SlowLinkDetectEnabled": 1
+    },
+    "HKCU\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon": {
+      "ExcludeProfileDirs": "AppData\\Local;AppData\\LocalLow;$Recycle.Bin;OneDrive;Work Folders",
+      "BuildNumber": 26300,
+      "FirstLogon": 0,
+      "ParseAutoexec": "1"
+    }
+  }
+}
