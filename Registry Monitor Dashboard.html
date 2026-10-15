@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Registry Monitor Dashboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: top severity banner + stat rail, then a scan timeline, then a detail table of findings */
+:root {
+  --bg: #F6F5F1;
+  --surface: #FFFFFF;
+  --surface-2: #EFEDE5;
+  --border: #DEDACE;
+  --ink: #1C2321;
+  --ink-dim: #5B6460;
+  --accent: #2D5C4D;
+  --accent-soft: #D9E6E0;
+  --mono: #4A5450;
+  --critical: #B0362B;
+  --critical-soft: #F3DEDB;
+  --high: #C1662A;
+  --high-soft: #F6E4D2;
+  --medium: #9A8420;
+  --medium-soft: #F1ECD3;
+  --info: #3C6E63;
+  --info-soft: #DCEAE5;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14181A;
+    --surface: #1D2225;
+    --surface-2: #262B2E;
+    --border: #343B3E;
+    --ink: #EDEFEA;
+    --ink-dim: #9BA6A1;
+    --accent: #6FBFA1;
+    --accent-soft: #223430;
+    --mono: #A8B2AD;
+    --critical: #E37E72;
+    --critical-soft: #3A2320;
+    --high: #E8A565;
+    --high-soft: #3A2C19;
+    --medium: #D9C564;
+    --medium-soft: #332E17;
+    --info: #7FC2AE;
+    --info-soft: #1D2E29;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14181A;
+  --surface: #1D2225;
+  --surface-2: #262B2E;
+  --border: #343B3E;
+  --ink: #EDEFEA;
+  --ink-dim: #9BA6A1;
+  --accent: #6FBFA1;
+  --accent-soft: #223430;
+  --mono: #A8B2AD;
+  --critical: #E37E72;
+  --critical-soft: #3A2320;
+  --high: #E8A565;
+  --high-soft: #3A2C19;
+  --medium: #D9C564;
+  --medium-soft: #332E17;
+  --info: #7FC2AE;
+  --info-soft: #1D2E29;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+  margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.mono, .tabular { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 40px 64px; display: flex; flex-direction: column; gap: 32px; }
+
+header.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+header.top h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+header.top p { margin: 0; color: var(--ink-dim); font-size: 14px; max-width: 46ch; }
+.badge-mode { font-family: 'IBM Plex Mono', monospace; font-size: 12px; background: var(--surface-2); border: 1px solid var(--border); color: var(--ink-dim); padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+
+.stat-rail { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.stat { background: var(--surface); padding: 20px; min-width: 0; }
+.stat .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-dim); margin-bottom: 8px; }
+.stat .value { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .value.critical { color: var(--critical); }
+.stat .sub { font-size: 12px; color: var(--ink-dim); margin-top: 4px; }
+
+section h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-dim); margin: 0 0 14px; }
+
+.timeline { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.run { display: grid; grid-template-columns: 96px 1fr auto; gap: 16px; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.run:last-child { border-bottom: none; }
+.run .time { font-size: 12px; color: var(--ink-dim); font-family: 'IBM Plex Mono', monospace; }
+.run .desc { font-size: 14px; min-width: 0; }
+.run .desc b { font-weight: 600; }
+.run .sev { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 100px; white-space: nowrap; }
+.sev.info { background: var(--info-soft); color: var(--info); }
+.sev.high { background: var(--high-soft); color: var(--high); }
+.sev.critical { background: var(--critical-soft); color: var(--critical); }
+
+.findings { display: flex; flex-direction: column; gap: 10px; }
+.finding { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.finding .bar { height: 4px; }
+.bar.critical { background: var(--critical); }
+.bar.high { background: var(--high); }
+.finding .body { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
+.finding .row1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.finding .key { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink); word-break: break-word; }
+.finding .score { font-size: 13px; font-weight: 600; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; }
+.finding .score.critical { color: var(--critical); }
+.finding .score.high { color: var(--high); }
+.finding dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: 13px; margin: 0; }
+.finding dt { color: var(--ink-dim); }
+.finding dd { margin: 0; font-family: 'IBM Plex Mono', monospace; word-break: break-word; }
+.flags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.flag { font-size: 11px; background: var(--surface-2); border: 1px solid var(--border); color: var(--mono); padding: 3px 8px; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; }
+
+.keys-table { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--border); }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-dim); background: var(--surface-2); font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+td.key-cell { font-family: 'IBM Plex Mono', monospace; }
+.tbl-wrap { overflow-x: auto; }
+
+footer { border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--ink-dim); }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .stat-rail { grid-template-columns: repeat(2, 1fr); }
+  .run { grid-template-columns: 1fr; gap: 6px; }
+  .run .sev { justify-self: start; }
+}
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Registry Change Monitoring &mdash; Sample Run</h1>
+      <p>Output from a real run of the toolkit: a clean baseline, then a detected malware-style change, scored and logged automatically.</p>
+    </div>
+    <span class="badge-mode">MODE: REAL_WINDOWS_REGISTRY</span>
+  </header>
+
+  <div class="stat-rail">
+    <div class="stat">
+      <div class="label">Values baselined</div>
+      <div class="value tabular">61</div>
+      <div class="sub">across 10 monitored keys</div>
+    </div>
+    <div class="stat">
+      <div class="label">Clean scan</div>
+      <div class="value tabular">0</div>
+      <div class="sub">false positives detected</div>
+    </div>
+    <div class="stat">
+      <div class="label">Changes found</div>
+      <div class="value tabular">1</div>
+      <div class="sub">in the live test run</div>
+    </div>
+    <div class="stat">
+      <div class="label">Peak severity</div>
+      <div class="value critical">HIGH</div>
+      <div class="sub">risk score 55 / 100</div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Scan timeline</h2>
+    <div class="timeline">
+      <div class="run">
+        <span class="time">10:58:32</span>
+        <span class="desc"><b>Baseline captured</b> &mdash; 61 values across 10 keys saved to baselines/baseline.json</span>
+        <span class="sev info">INFO</span>
+      </div>
+      <div class="run">
+        <span class="time">10:58:35</span>
+        <span class="desc"><b>Clean scan</b> &mdash; no registry changes detected since baseline</span>
+        <span class="sev info">INFO</span>
+      </div>
+      <div class="run">
+        <span class="time">11:09:48</span>
+        <span class="desc"><b>Test entry added</b> &mdash; simulated autorun persistence via reg.exe</span>
+        <span class="sev high">HIGH</span>
+      </div>
+      <div class="run">
+        <span class="time">11:09:51</span>
+        <span class="desc"><b>Rescan</b> &mdash; TestEntry flagged, logged to CSV, report generated</span>
+        <span class="sev critical">ALERT</span>
+      </div>
+      <div class="run">
+        <span class="time">11:10:02</span>
+        <span class="desc"><b>Test entry removed</b> &mdash; cleanup confirmed via reg delete</span>
+        <span class="sev info">INFO</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Detected finding</h2>
+    <div class="findings">
+      <div class="finding">
+        <div class="bar high"></div>
+        <div class="body">
+          <div class="row1">
+            <span class="key">HKCU\Software\Microsoft\Windows\CurrentVersion\Run</span>
+            <span class="score high">HIGH &middot; 55/100</span>
+          </div>
+          <dl>
+            <dt>Value name</dt><dd>TestEntry</dd>
+            <dt>Change type</dt><dd>added</dd>
+            <dt>New value</dt><dd>...AppData\Local\Temp\svchost32.exe -silent</dd>
+          </dl>
+          <div class="flags">
+            <span class="flag">NEW_AUTORUN_ENTRY</span>
+            <span class="flag">SUSPICIOUS_PATTERN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Monitored keys</h2>
+    <div class="keys-table">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Key</th><th>Watches</th><th>Detects</th></tr>
+          <tr><td class="key-cell">HKCU/HKLM ...\Run, \RunOnce</td><td>all values</td><td>New autorun entries</td></tr>
+          <tr><td class="key-cell">...\Windows Defender</td><td>DisableAntiSpyware</td><td>Defender disabled via policy</td></tr>
+          <tr><td class="key-cell">...\Services\WinDefend</td><td>Start</td><td>Service start-type changed</td></tr>
+          <tr><td class="key-cell">...\FirewallPolicy\StandardProfile</td><td>EnableFirewall</td><td>Firewall toggled</td></tr>
+          <tr><td class="key-cell">...\Policies\System</td><td>EnableLUA</td><td>UAC enabled/disabled</td></tr>
+          <tr><td class="key-cell">HKCU ...\Winlogon</td><td>Shell</td><td>Default shell replaced</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Windows Registry Change Monitoring System &mdash; sample output, not a live feed</span>
+    <span>CLI toolkit, run locally &middot; read-only by design</span>
+  </footer>
+
+</div>
+
+</body></html>
